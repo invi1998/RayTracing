@@ -4,7 +4,7 @@
 cmake_minimum_required(VERSION 3.10)
 
 # # 定义工程文件名
-# PROJECT (RayTracing)
+# PROJECT (main)
 
 # 第三方库
 # 在计算机中寻找符合要求的第三方库，同时这些库也要求支持用cmake构建（现在一般c++库都是支持cmake构建的）
