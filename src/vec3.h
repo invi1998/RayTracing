@@ -122,7 +122,7 @@ inline vec3 unit_vector(vec3 v)
 }
 
 // 取两个别名
-using point = vec3;
+using point3 = vec3;
 using color = vec3;
 
 #endif
