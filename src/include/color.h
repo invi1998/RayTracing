@@ -14,9 +14,10 @@ void write_color(std::ostream &out, color pixel_color, int samples_per_pixel)
 
     // 将颜色除以采样点数（混合模糊颜色，进行反走样）
     auto scale = 1.0 / samples_per_pixel;
-    r *= scale;
-    g *= scale;
-    b *= scale;
+    // sqrt 添加伽马颜色校正
+    r = sqrt(scale * r);
+    g = sqrt(scale * g);
+    b = sqrt(scale * b);
 
     // Write the translated [0,255] value of each color component.
     out << static_cast<int>(255.999 * clamp(r, 0.0, 0.999)) << ' '
