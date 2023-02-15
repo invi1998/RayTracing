@@ -1,12 +1,15 @@
 #ifndef __HITTABLE_H__
 #define __HITTABLE_H__
 
-#include "ray.h"
+#include "rtweekend.h"
+
+class material;
 
 struct hit_record
 {
     vec3 p;
     vec3 normal;
+    std::shared_ptr<material> mat_ptr;
     double t;
     bool front_face; // 是否是外表面，通过光线方向向量和物体表面法线做点乘，点乘结果可以用于判断内外（小于0，说明和法线方向相反，不是外表面，反之相反）
 

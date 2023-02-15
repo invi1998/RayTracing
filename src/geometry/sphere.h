@@ -5,16 +5,18 @@
 
 #include "..\include\hittable.h"
 #include "..\include\vec3.h"
+#include "..\material\material.h"
 
 class sphere : public hittable
 {
 private:
     vec3 center;
     double radius;
+    std::shared_ptr<material> mat_ptr;
 
 public:
     sphere() {}
-    sphere(vec3 cen, double r) : center(cen), radius(r){};
+    sphere(vec3 cen, double r, std::shared_ptr<material> m) : center(cen), radius(r), mat_ptr(m){};
 
     ~sphere() {}
 
@@ -50,6 +52,7 @@ bool sphere::hit(const ray &r, double t_min, double t_max, hit_record &rec) cons
     // 光线入射面判定
     vec3 outward_normal = (rec.p - center) / radius;
     rec.set_face_normal(r, outward_normal);
+    rec.mat_ptr = mat_ptr;
 
     return true;
 }
