@@ -17,7 +17,10 @@ public:
     {
         add(object);
     }
-    ~hittable_list();
+    ~hittable_list()
+    {
+        objects.clear();
+    }
 
     void add(std::shared_ptr<hittable> object)
     {
@@ -40,7 +43,7 @@ bool hittable_list::hit(const ray &r, double t_min, double t_max, hit_record &re
 
     for (const auto &object : objects)
     {
-        if (object->hit(r, t_min, t_max, temp_rec))
+        if (object->hit(r, t_min, closest_so_far, temp_rec))
         {
             hit_anything = true;
             closest_so_far = temp_rec.t;
