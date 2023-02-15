@@ -58,11 +58,6 @@ public:
     {
         return e[0] * e[0] + e[1] * e[1] + e[2] * e[2];
     }
-
-    void write_color(std::ostream &out)
-    {
-        out << static_cast<int>(255.999 * e[0]) << ' ' << static_cast<int>(255.999 * e[1]) << ' ' << static_cast<int>(255.999 * e[2]) << '\n';
-    }
 };
 
 // 向量操作函数
