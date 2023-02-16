@@ -181,6 +181,18 @@ vec3 refract(const vec3 &uv, const vec3 &n, double etai_over_etat)
     return r_out_perp + r_out_parallel;
 }
 
+// 视角模糊
+vec3 random_in_unit_disk()
+{
+    while (true)
+    {
+        auto p = vec3(random_double(-1, 1), random_double(-1, 1), 0);
+        if (p.length_squared() >= 1)
+            continue;
+        return p;
+    }
+}
+
 // 取两个别名
 using point3 = vec3;
 using color = vec3;
