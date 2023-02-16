@@ -13,17 +13,18 @@ private:
     vec3 vertical;
 
 public:
-    camera();
+    camera(double vfov, double aspect_radio);
     ~camera();
 
     ray get_ray(double u, double v) const;
 };
 
-camera::camera()
+camera::camera(double vfov, double aspect_radio)
 {
-    auto aspect_ratio = 16.0 / 9.0;
-    auto viewport_height = 2.0;
-    auto viewport_width = aspect_ratio * viewport_height;
+    auto theta = degress_to_radians(vfov);
+    auto h = tan(theta / 2);
+    auto viewport_height = 2.0 * h;
+    auto viewport_width = aspect_radio * viewport_height;
     auto focal_length = 1.0;
 
     origin = point3(0, 0, 0);

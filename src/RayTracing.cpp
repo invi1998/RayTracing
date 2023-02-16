@@ -59,7 +59,7 @@ int main()
     world.add(std::make_shared<sphere>(point3(1.0, 0.0, -1.0), 0.5, material_right));
 
     // Camera
-    camera cam;
+    camera cam(90.0, aspect_ratio);
 
     // Render
 
