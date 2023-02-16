@@ -13,13 +13,13 @@ private:
     vec3 vertical;
 
 public:
-    camera(double vfov, double aspect_radio);
+    camera(point3 lookfrom, point3 lookat, vec3 vup, double vfov, double aspect_radio);
     ~camera();
 
     ray get_ray(double u, double v) const;
 };
 
-camera::camera(double vfov, double aspect_radio)
+camera::camera(point3 lookfrom, point3 lookat, vec3 vup, double vfov, double aspect_radio)
 {
     auto theta = degress_to_radians(vfov);
     auto h = tan(theta / 2);
