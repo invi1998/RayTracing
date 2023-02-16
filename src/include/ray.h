@@ -6,7 +6,7 @@
 // 光线类
 class ray
 {
-public:
+private:
     point3 orig;
     vec3 dir;
 
