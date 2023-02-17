@@ -43,9 +43,9 @@ hittable_list random_scene()
 
     world.add(std::make_shared<sphere>(point3(0, -1000, 0), 1000, ground_material));
 
-    for (int a = -15; a < 15; a++)
+    for (int a = -5; a < 5; a++)
     {
-        for (int b = -15; b < 15; b++)
+        for (int b = -5; b < 5; b++)
         {
             auto choose_mat = random_double();
             point3 center(a + 0.9 * random_double(), 0.2, b + 0.9 * random_double());
@@ -58,26 +58,26 @@ hittable_list random_scene()
                 {
                     // 漫反射材质
                     auto albedo = color::random() * color::random();
-                    auto size = random_double(0.1, 0.3);
+                    // auto size = random_double(0.1, 0.3);
                     sphere_material = std::make_shared<lambertian>(albedo);
-                    world.add(std::make_shared<sphere>(center, size, sphere_material));
+                    world.add(std::make_shared<sphere>(center, 0.2, sphere_material));
                 }
                 else if (choose_mat < 0.95)
                 {
                     // 金属材质
-                    auto size = random_double(0.1, 0.3);
+                    // auto size = random_double(0.1, 0.3);
                     auto albedo = color::random(0.5, 1);
                     auto fuzz = random_double(0, 0.5);
                     sphere_material = std::make_shared<metal>(albedo, fuzz);
-                    world.add(std::make_shared<sphere>(center, size, sphere_material));
+                    world.add(std::make_shared<sphere>(center, 0.2, sphere_material));
                 }
                 else
                 {
                     // 玻璃材质
-                    auto fu = random_double(1, 2);
-                    auto size = random_double(0.1, 0.3);
-                    sphere_material = std::make_shared<dielectric>(fu);
-                    world.add(std::make_shared<sphere>(center, size, sphere_material));
+                    // auto fu = random_double(1, 2);
+                    // auto size = random_double(0.1, 0.3);
+                    sphere_material = std::make_shared<dielectric>(1.5);
+                    world.add(std::make_shared<sphere>(center, 0.2, sphere_material));
                 }
             }
         }
@@ -100,7 +100,7 @@ int main()
     const auto aspect_ratio = 3.0 / 2.0;
     const int image_width = 1200;
     const int image_height = static_cast<int>(image_width / aspect_ratio);
-    const int samples_per_pixel = 500; // 采样率
+    const int samples_per_pixel = 100; // 采样率
     const int max_depth = 50;
 
     // world
@@ -113,7 +113,7 @@ int main()
     auto dist_to_focus = 10.0;
     auto aperture = 0.1;
 
-    camera cam(point3(-2, 2, 1), point3(0, 0, -1), vec3(0, 1, 0), 20.0, aspect_ratio, aperture, dist_to_focus);
+    camera cam(lookfrom, lookat, vup, 20.0, aspect_ratio, aperture, dist_to_focus);
 
     // Render
 
