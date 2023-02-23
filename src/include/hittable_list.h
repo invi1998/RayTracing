@@ -9,7 +9,7 @@
 
 class hittable_list : public hittable
 {
-private:
+public:
     std::vector<std::shared_ptr<hittable>> objects;
 
 public:
