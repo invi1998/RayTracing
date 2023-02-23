@@ -3,14 +3,16 @@
 #define __LAMBERTIAN_H__
 
 #include "material.h"
+#include "../include/texture.h"
 
 class lambertian : public material
 {
 private:
-    color albedo;
+    std::shared_ptr<texture> albedo;
 
 public:
-    lambertian(const color &a) : albedo(a) {}
+    lambertian(const color &a) : albedo(std::make_shared<solid_color>(a)) {}
+    lambertian(std::shared_ptr<texture> a) : albedo(a) {}
 
     virtual bool scatter(const ray &r_in, const hit_record &rec, color &attenuation, ray &scattered) const override;
 };
@@ -26,7 +28,7 @@ bool lambertian::scatter(const ray &r_in, const hit_record &rec, color &attenuat
     }
 
     scattered = ray(rec.p, scatter_dirction, r_in.time());
-    attenuation = albedo;
+    attenuation = albedo->value(rec.u, rec.v, rec.p);
     return true;
 }
 

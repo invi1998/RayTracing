@@ -33,16 +33,19 @@ color ray_color(const ray &r, const hittable &world, int depth)
     vec3 unit_direction = unit_vector(r.direction());
 
     auto t = 0.5 * (unit_direction.y() + 1.0);
-    return (1.0 - t) * color(1.0, 1.0, 1.0) + t * color(0.6, 0.5, 1.0);
+    return (1.0 - t) * color(1.0, 1.0, 1.0) + t * color(0.5, 0.7, 1.0);
 }
 
 hittable_list random_scene()
 {
     hittable_list world;
 
-    auto ground_material = std::make_shared<lambertian>(color(0.5, 0.4, 0.4));
+    auto checker = std::make_shared<cheker_texture>(color(0.01, 0.01, 0.01), color(0.05, 0.05, 0.05));
+    world.add(std::make_shared<sphere>(point3(0, -1000, 0), 1000, std::make_shared<lambertian>(checker)));
 
-    world.add(std::make_shared<sphere>(point3(0, -1000, 0), 1000, ground_material));
+    // auto ground_material = std::make_shared<lambertian>(color(0.5, 0.4, 0.4));
+
+    // world.add(std::make_shared<sphere>(point3(0, -1000, 0), 1000, ground_material));
 
     for (int a = -5; a < 5; a++)
     {
@@ -97,6 +100,18 @@ hittable_list random_scene()
     return static_cast<hittable_list>(std::make_shared<bvh_node>(world, 0, 1));
 }
 
+hittable_list two_spheres()
+{
+    hittable_list objects;
+
+    auto checker = std::make_shared<cheker_texture>(color(0.01, 0.01, 0.01), color(0.05, 0.05, 0.05));
+
+    objects.add(std::make_shared<sphere>(point3(0, -10, 0), 10, std::make_shared<lambertian>(checker)));
+    objects.add(std::make_shared<sphere>(point3(0, 10, 0), 10, std::make_shared<lambertian>(checker)));
+
+    return objects;
+}
+
 int main()
 {
     // Image
@@ -107,16 +122,38 @@ int main()
     const int max_depth = 50;
 
     // world
-    hittable_list world = random_scene();
+    hittable_list world;
+
+    point3 lookfrom;
+    point3 lookat;
+    auto vfov = 40.0;
+    auto aperture = 0.0;
+
+    switch (0)
+    {
+    case 1:
+        world = random_scene();
+        lookfrom = point3(13, 2, 3);
+        lookat = point3(0, 0, 0);
+        vfov = 20.0;
+        aperture = 0.1;
+        break;
+
+    default:
+    case 2:
+        world = two_spheres();
+        lookfrom = point3(13, 2, 3);
+        lookat = point3(0, 0, 0);
+        vfov = 20.0;
+        break;
+    }
 
     // Camera
-    point3 lookfrom(13, 2, 3);
-    point3 lookat(0, 0, 0);
+
     vec3 vup(0, 1, 0);
     auto dist_to_focus = 10.0;
-    auto aperture = 0.1;
 
-    camera cam(lookfrom, lookat, vup, 20.0, aspect_ratio, aperture, dist_to_focus, 0.0, 1.0);
+    camera cam(lookfrom, lookat, vup, vfov, aspect_ratio, aperture, dist_to_focus, 0.0, 1.0);
 
     // Render
 
