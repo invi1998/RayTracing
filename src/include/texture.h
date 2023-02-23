@@ -3,6 +3,7 @@
 #define __TEXTURE_H__
 
 #include "rtweekend.h"
+#include "perlin.h"
 
 class texture
 {
@@ -52,6 +53,21 @@ public:
         {
             return even->value(u, v, p);
         }
+    }
+};
+
+class noise_texture : public texture
+{
+private:
+    perlin noise;
+
+public:
+    noise_texture() {}
+    ~noise_texture() {}
+
+    virtual color value(double u, double v, const point3 &p) const override
+    {
+        return color(1, 1, 1) * noise.noise(p);
     }
 };
 
