@@ -123,6 +123,15 @@ hittable_list two_perlin_spheres()
     return objects;
 }
 
+hittable_list earth()
+{
+    auto earth_texture = std::make_shared<image_texture>("earthmap.jpg");
+    auto earth_suface = std::make_shared<lambertian>(earth_texture);
+    auto globe = std::make_shared<sphere>(point3(0, 0, 0), 2, earth_suface);
+
+    return hittable_list(globe);
+}
+
 int main()
 {
     // Image
@@ -140,7 +149,7 @@ int main()
     auto vfov = 40.0;
     auto aperture = 0.0;
 
-    switch (3)
+    switch (4)
     {
     case 1:
         world = random_scene();
@@ -157,6 +166,12 @@ int main()
         break;
     case 3:
         world = two_perlin_spheres();
+        lookfrom = point3(13, 2, 3);
+        lookat = point3(0, 0, 0);
+        vfov = 20.0;
+        break;
+    case 4:
+        world = earth();
         lookfrom = point3(13, 2, 3);
         lookat = point3(0, 0, 0);
         vfov = 20.0;
