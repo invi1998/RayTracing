@@ -33,6 +33,8 @@
         "optional": "cpp",
         "sstream": "cpp",
         "tuple": "cpp",
-        "utility": "cpp"
+        "utility": "cpp",
+        "deque": "cpp",
+        "functional": "cpp"
     }
 }

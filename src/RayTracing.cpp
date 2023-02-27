@@ -8,6 +8,7 @@
 #include "./geometry/sphere.h"
 #include "./include/bvh.h"
 #include "./include/aarect.h"
+#include "./geometry/box.h"
 
 #include <iostream>
 
@@ -154,6 +155,7 @@ hittable_list cornell_box()
     auto red = std::make_shared<lambertian>(color(0.75, 0.07, 0.1));
     auto white = std::make_shared<lambertian>(color(0.88, 0.88, 0.88));
     auto green = std::make_shared<lambertian>(color(0.06, 0.68, 0.18));
+    auto yellow = std::make_shared<lambertian>(color(0.06, 0.01, 0.88));
     auto light = std::make_shared<diffuse_light>(color(15, 15, 15));
 
     objects.add(std::make_shared<yz_rect>(0, 555, 0, 555, 555, green));
@@ -162,6 +164,16 @@ hittable_list cornell_box()
     objects.add(std::make_shared<xz_rect>(0, 555, 0, 555, 0, white));
     objects.add(std::make_shared<xz_rect>(0, 555, 0, 555, 555, white));
     objects.add(std::make_shared<xy_rect>(0, 555, 0, 555, 555, white));
+
+    std::shared_ptr<hittable> box1 = std::make_shared<box>(point3(0, 0, 0), point3(165, 330, 165), white);
+    box1 = std::make_shared<rotate_y>(box1, 15);
+    box1 = std::make_shared<translate>(box1, vec3(265, 0, 295));
+    objects.add(box1);
+
+    std::shared_ptr<hittable> box2 = std::make_shared<box>(point3(0, 0, 0), point3(165, 165, 165), yellow);
+    box2 = std::make_shared<rotate_y>(box2, -18);
+    box2 = std::make_shared<translate>(box2, vec3(130, 0, 65));
+    objects.add(box2);
 
     return objects;
 }
