@@ -147,12 +147,30 @@ hittable_list simple_light()
     return objects;
 }
 
+hittable_list cornell_box()
+{
+    hittable_list objects;
+
+    auto red = std::make_shared<lambertian>(color(0.75, 0.07, 0.1));
+    auto white = std::make_shared<lambertian>(color(0.88, 0.88, 0.88));
+    auto green = std::make_shared<lambertian>(color(0.06, 0.68, 0.18));
+    auto light = std::make_shared<diffuse_light>(color(15, 15, 15));
+
+    objects.add(std::make_shared<yz_rect>(0, 555, 0, 555, 555, green));
+    objects.add(std::make_shared<yz_rect>(0, 555, 0, 555, 0, red));
+    objects.add(std::make_shared<xz_rect>(213, 343, 227, 332, 554, light));
+    objects.add(std::make_shared<xz_rect>(0, 555, 0, 555, 0, white));
+    objects.add(std::make_shared<xz_rect>(0, 555, 0, 555, 555, white));
+    objects.add(std::make_shared<xy_rect>(0, 555, 0, 555, 555, white));
+
+    return objects;
+}
+
 int main(int argc, char *argv[])
 {
     // Image
-    const auto aspect_ratio = 16.0 / 9.0;
-    const int image_width = 400;
-    const int image_height = static_cast<int>(image_width / aspect_ratio);
+    auto aspect_ratio = 16.0 / 9.0;
+    int image_width = 400;
     int samples_per_pixel = 100; // 采样率
     const int max_depth = 50;
     color background(0, 0, 0);
@@ -165,7 +183,7 @@ int main(int argc, char *argv[])
     auto vfov = 40.0;
     auto aperture = 0.0;
 
-    switch (5)
+    switch (6)
     {
     case 1:
         world = random_scene();
@@ -204,6 +222,16 @@ int main(int argc, char *argv[])
         lookat = point3(0, 2, 0);
         vfov = 20.0;
         break;
+    case 6:
+        world = cornell_box();
+        aspect_ratio = 1.0;
+        image_width = 600;
+        samples_per_pixel = 200;
+        background = color(0, 0, 0);
+        lookfrom = point3(278, 278, -800);
+        lookat = point3(278, 278, 0);
+        vfov = 40.0;
+        break;
     default:
         break;
     }
@@ -214,6 +242,8 @@ int main(int argc, char *argv[])
     auto dist_to_focus = 10.0;
 
     camera cam(lookfrom, lookat, vup, vfov, aspect_ratio, aperture, dist_to_focus, 0.0, 1.0);
+
+    const int image_height = static_cast<int>(image_width / aspect_ratio);
 
     // Render
 
