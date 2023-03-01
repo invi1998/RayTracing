@@ -7,7 +7,7 @@
 class dielectric : public material
 {
 private:
-    double ir;
+    double ir; // 折射率
 
 public:
     dielectric(double index_of_refraction) : ir(index_of_refraction) {}
