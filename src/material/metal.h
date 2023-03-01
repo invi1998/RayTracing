@@ -8,7 +8,7 @@
 class metal : public material
 {
 private:
-    color albedo;
+    color albedo; // 反射率；漫反射系数
     double fuzz;
 
 public:

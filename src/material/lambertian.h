@@ -8,7 +8,7 @@
 class lambertian : public material
 {
 private:
-    std::shared_ptr<texture> albedo;
+    std::shared_ptr<texture> albedo; // 反射率；漫反射系数
 
 public:
     lambertian(const color &a) : albedo(std::make_shared<solid_color>(a)) {}
